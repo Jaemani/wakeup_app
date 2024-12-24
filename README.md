@@ -3,12 +3,12 @@
 졸음운전감지 app based on flutter
 
 ## Features
-<p>Detect the eyes and check if it's opend or closed.<br>
+<p>* Detect the eyes and check if it's opend or closed.<br>
 if closing is longer than 1.2s, issue an alert with displaying "WAKE UP"</p>
-<p>once the alert is issued, the closing time log save to the log screen.<br></p>
-<p>Login with Gemini API and save data(still working on it)<br>
+<p>* once the alert is issued, the closing time log save to the log screen.<br></p>
+<p>* Login with Gemini API and save data(still working on it)<br>
   give advice from Gemini (still working on it)</p>
-<p>detect the user location and check if is in the traffic accident hotspots</p>
+<p>* detect the user location and check if is in the traffic accident hotspots</p>
 
 ## Stack
 - Flutter
@@ -340,6 +340,10 @@ if closing is longer than 1.2s, issue an alert with displaying "WAKE UP"</p>
 ## Trained Model
 - Yolov5n (320x320)
 
+## Pre-processed DataSet
+[rmbg_all@roboflow](https://app.roboflow.com/label-wddb7/rmbg_all/3)
+> We found many opensource images, filtered it, labeled it and then removed background before data argumentation
+
 ## App Screen
 HomeScreen(Default)        |  After Eye-Closing Detected
 :-------------------------:|:-------------------------:
@@ -359,3 +363,4 @@ Log Window<br>(Swipe right to display) | After Detected
 - Model doesn't work on ios. Android only (3rd party framework issue)
 - Model Dosen't work with Front Camera. Detecting Box Out of point. Couldn't detect properly (Flutter FrontCamera issue)
 - Detecting box stuck in last place and doesn't disappear when eyes are out of screen. Only good at detecting and following eyes ()
+- Up to +99% confidence with open/closed eyes. but sometimes detect the edge of the camera screen especially while moving the camera <br>=> need to fix it to only find in the range of face
