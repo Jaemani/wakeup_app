@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wakeup/services/auth_service.dart';
+import 'package:wakeup/services/gemini_service.dart';
 
 class LogWindow extends StatefulWidget {
   final Function(String) onApiKeySubmitted;
@@ -12,39 +14,94 @@ class LogWindow extends StatefulWidget {
 }
 
 class LogWindowState extends State<LogWindow> {
-  final AuthService _authService = AuthService(); // AuthService for Firebase
   final List<String> _logs = [];
   final TextEditingController _apiKeyController =
       TextEditingController(); // Controller for the input field
+  bool isLoggedIn = false;
+  final GeminiService geminiService = GeminiService();
+  String? userId; // Variable to store the userId
 
   @override
   void initState() {
     super.initState();
-    _loadApiKey();
+    _checkLoginStatus();
   }
 
-  Future<void> _loadApiKey() async {
-    final apiKey = await _authService.getStoredApiKey();
-    if (apiKey != null) {
-      widget.onApiKeySubmitted(apiKey);
-    }
+  // Check if the user is already logged in
+  Future<void> _checkLoginStatus() async {
+    bool loggedIn = await geminiService.isLoggedIn();
+    setState(() {
+      isLoggedIn = loggedIn;
+    });
   }
 
+  // Handle the submission of the API key
   Future<void> _submitApiKey() async {
-    final apiKey = _apiKeyController.text;
+    String apiKey = _apiKeyController.text;
     if (apiKey.isNotEmpty) {
-      widget.onApiKeySubmitted(apiKey);
-      await _authService.storeApiKey(apiKey); // Store API key in Firebase
-      addLog("API key submitted and stored.");
-    } else {
-      addLog("API key cannot be empty.");
+      // Login using Cloud Function
+      final result = await geminiService.loginWithGeminiApiKey(apiKey);
+      if (result != null && result['success'] == true) {
+        setState(() {
+          isLoggedIn = true;
+          userId = result['userId']; // Store userId for future use
+        });
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Logged in successfully!"),
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Invalid API key, please try again."),
+        ));
+      }
     }
+  }
+
+  // Handle the logout action
+  Future<void> _logout() async {
+    await geminiService.logout();
+    setState(() {
+      isLoggedIn = false; // Reset login state
+      userId = null; // Clear the userId
+    });
   }
 
   void addLog(String log) {
     setState(() {
       _logs.add(log);
     });
+  }
+
+  // Function to detect drowsy warning and log it in Firestore
+  void _onDrowsyWarningDetected(double closedEyeDuration) async {
+    if (isLoggedIn && userId != null) {
+      // Store logs in Firestore
+      await FirebaseFirestore.instance
+          .collection('WarnLogs')
+          .doc(userId) // Use the stored userId
+          .collection('Logs')
+          .add({
+        'duration': closedEyeDuration,
+        'time': FieldValue.serverTimestamp(),
+      });
+
+      // Generate and store chat message (if any suggestion is generated)
+      await FirebaseFirestore.instance
+          .collection('ChatLogs')
+          .doc(userId) // Use the stored userId
+          .collection('Logs')
+          .add({
+        'message':
+            "Take a break! You've been drowsy for too long.", // Example message
+        'time': FieldValue.serverTimestamp(),
+      });
+    } else {
+      // If the user is not logged in, show a warning notice
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+            "Warn logs might not be saved if you don't log in with Gemini API."),
+      ));
+    }
   }
 
   @override
@@ -65,22 +122,36 @@ class LogWindowState extends State<LogWindow> {
               ),
               backgroundColor: Colors.grey[900], // Darker gray app bar
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _apiKeyController,
-                style: const TextStyle(
-                  color: Colors.white, // White text when typing
-                ),
-                cursorColor: Colors.white, // White cursor
-                decoration: const InputDecoration(
-                  labelText: 'Enter API Key',
-                  labelStyle:
-                      TextStyle(color: Colors.white70), // White label text
-                  border: OutlineInputBorder(),
+            if (!isLoggedIn)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _apiKeyController,
+                  style: const TextStyle(
+                    color: Colors.white, // White text when typing
+                  ),
+                  cursorColor: Colors.white, // White cursor
+                  decoration: InputDecoration(
+                    labelText: 'Enter Gemini API Key',
+                    labelStyle: const TextStyle(
+                        color: Colors.white70), // White label text
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed:
+                          _submitApiKey, // Trigger login when API key is entered
+                    ),
+                  ),
                 ),
               ),
-            ),
+            if (isLoggedIn)
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: const Icon(Icons.logout),
+                  onPressed: _logout, // Log out the user
+                ),
+              ),
             ElevatedButton(
               onPressed: _submitApiKey,
               child: const Text('Submit API Key'),

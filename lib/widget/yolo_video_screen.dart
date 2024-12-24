@@ -160,18 +160,18 @@ class _YoloVideoState extends State<YoloVideo> with TickerProviderStateMixin {
       debugInfo = 'Eyes just closed';
     } else if (opened && eyesClosedStartTime != null) {
       final closedDuration = DateTime.now().difference(eyesClosedStartTime!);
-      debugInfo =
-          'Eyes were closed for: ${closedDuration.inMilliseconds / 1000} s';
+      debugInfo = 'Eyes were closed for: ${closedDuration.inMilliseconds} s';
+      if (isWarning && closedDuration.inMilliseconds >= 1200) {
+        _logWarning(closedDuration);
+      }
       eyesClosedStartTime = null;
       isWarning = false;
     } else if (eyesClosedStartTime != null) {
       final currentClosedDuration =
           DateTime.now().difference(eyesClosedStartTime!);
-      debugInfo =
-          'Eyes closed for: ${currentClosedDuration.inMilliseconds / 1000} s';
+      debugInfo = 'Eyes closed for: $currentClosedDuration s';
 
       if (currentClosedDuration.inMilliseconds >= 1200 && !isWarning) {
-        _logWarning(currentClosedDuration);
         isWarning = true;
         _playAlertSound();
       }

@@ -1,34 +1,22 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-const crypto = require('crypto');
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+const crypto = require("crypto");
 
 admin.initializeApp();
 
-exports.hashAndStoreApiKey = functions.https.onCall(async (data, context) => {
-  if (!context.auth) {
-    throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated.');
-  }
-
-  const { apiKey } = data;
-  const userId = context.auth.uid;
+// Cloud Function to hash the API key
+exports.hashApiKey = functions.https.onCall((data, context) => {
+  const apiKey = data.apiKey;
 
   if (!apiKey) {
-    throw new functions.https.HttpsError('invalid-argument', 'API key is required.');
+    throw new functions.https.HttpsError("invalid-arg", "API key not provided");
   }
 
-  // Hash the API key
-  const salt = crypto.randomBytes(16).toString('hex');
-  const hash = crypto.pbkdf2Sync(apiKey, salt, 1000, 64, 'sha512').toString('hex');
+  // Hash the API key using SHA-256
+  const hashedApiKey = crypto.createHash("sha256").update(apiKey).digest("hex");
 
-  // Store the hashed key
-  await admin.firestore().collection('Users').doc(userId).set({
-    hashed_API: hash,
-    salt: salt
-  }, { merge: true });
+  // Simulate a userId based on hashed API key
+  const userId = "user_" + hashedApiKey.substring(0, 6); // Example userId
 
-  // Create documents for ChatLogs and WarnLogs
-  await admin.firestore().collection('ChatLogs').doc(userId).set({});
-  await admin.firestore().collection('WarnLogs').doc(userId).set({});
-
-  return { success: true, message: 'API key hashed and stored successfully' };
+  return {userId, hashedApiKey};
 });
