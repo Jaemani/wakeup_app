@@ -5,7 +5,7 @@
 ## Features
 <p>Detect the eyes and check if it's opend or closed.<br>
 if closing is longer than 1.2s, issue an alert with displaying "WAKE UP"</p>
-<p>once the alert is issued, the closing time log save to the log box.<br></p>
+<p>once the alert is issued, the closing time log save to the log screen.<br></p>
 <p>Login with Gemini API and save data(still working on it)<br>
   give advice from Gemini (still working on it)</p>
 <p>detect the user location and check if is in the traffic accident hotspots</p>
@@ -339,6 +339,17 @@ if closing is longer than 1.2s, issue an alert with displaying "WAKE UP"</p>
 
 ## Trained Model
 - Yolov5n (320x320)
-## App Screen
 
-## Unsolved Bugs
+## App Screen
+HomeScreen(Default)        |  After Eye-Closing Detected
+:-------------------------:|:-------------------------:
+<img src="https://private-user-images.githubusercontent.com/39300288/398356556-8edc4256-3553-4237-bdfa-4536fefea2d8.jpeg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzUwMjY4MzksIm5iZiI6MTczNTAyNjUzOSwicGF0aCI6Ii8zOTMwMDI4OC8zOTgzNTY1NTYtOGVkYzQyNTYtMzU1My00MjM3LWJkZmEtNDUzNmZlZmVhMmQ4LmpwZWc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMjI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTIyNFQwNzQ4NTlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0wODYyNmVkNmE0ZjAyOTc1MzY1NDA3Zjg4Mjg2MjkyMWE4MTIwNWM4Y2RiZjhhNzUyNjM3Njc0MGE5YTI4ZGQyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.3tI6oN3YKZjyD63nFWnRBbuSY_iwmUtt_hgpaqOBYh8" width="400"> | <img src="https://private-user-images.githubusercontent.com/39300288/398356583-ff085965-a021-4793-85ae-4cc687c09439.jpeg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzUwMjY4MzksIm5iZiI6MTczNTAyNjUzOSwicGF0aCI6Ii8zOTMwMDI4OC8zOTgzNTY1ODMtZmYwODU5NjUtYTAyMS00NzkzLTg1YWUtNGNjNjg3YzA5NDM5LmpwZWc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMjI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTIyNFQwNzQ4NTlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iYzU1ZDRmZGE2MWU5YzU5MzYwMWIwN2VkMDdmZjFmN2ZjZjdiYmY4NGNkZWI2NGUzZmNiMzE5MjBkNmE3NzcyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.COb9dGabFmkfyEsuU7phbcQjDRXhdA8afG7hwM6LCbs" width="400">
+
+Log Window<br>(Swipe right to display) | After Detected
+:-------------------------:|:-------------------------:
+<img src="https://private-user-images.githubusercontent.com/39300288/398356569-dda416ba-020c-4408-bdfa-1055794831f5.jpeg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzUwMjY4MzksIm5iZiI6MTczNTAyNjUzOSwicGF0aCI6Ii8zOTMwMDI4OC8zOTgzNTY1NjktZGRhNDE2YmEtMDIwYy00NDA4LWJkZmEtMTA1NTc5NDgzMWY1LmpwZWc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMjI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTIyNFQwNzQ4NTlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0xYWVmODMzNzE4YWEyZTJkOWZiNTg4MDUxODQwNTliOGE1NTNkNzRmNTE1YTgyNWFlY2FmY2I2MWY0OTExYzg2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.ZWXvfawlTpth7a4JoqCMzyu2gBVqTBg1TyhjWiiL0sg" width="400"> | <img src="https://private-user-images.githubusercontent.com/39300288/398356579-b8858ad3-bf46-408a-8afa-2d8855513109.jpeg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzUwMjY4MzksIm5iZiI6MTczNTAyNjUzOSwicGF0aCI6Ii8zOTMwMDI4OC8zOTgzNTY1NzktYjg4NThhZDMtYmY0Ni00MDhhLThhZmEtMmQ4ODU1NTEzMTA5LmpwZWc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMjI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTIyNFQwNzQ4NTlaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT05OGFhMjY4MzQ0YjIxZjgwM2NiYjAzMTlkODIyMzJjYWIyM2U4ZDBlOTc4NzdkNDk4N2JlYWYwOGRlMzhkMTIxJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.Vra5ed2rLaEegTCysvHYiTqx4az8Yx5ZQFHw2QQ3x3U" width="400">
+
+## Unsolved Issues
+- Model doesn't work on ios. Android only (3rd party framework issue)
+- Model Dosen't work with Front Camera. Detecting Box Out of point. Couldn't detect properly (Flutter FrontCamera issue)
+- Detecting box stuck in last place and doesn't disappear when eyes are out of screen. Only good at detecting and following eyes ()
