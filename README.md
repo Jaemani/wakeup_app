@@ -8,7 +8,10 @@
 </div>
 
 ---
-> 🏆 **Award**: 1st Place, NIPA - Google ML Hands-on Projects Bootcamp (2024, 3rd Cohort) – Selected as top-performing team among all final projects
+> 🏆 **Award**: 1st Place, Google Korea ML Bootcamp (2024, Cohort 3)  
+> Selected as the top project among final demo teams, based on technical depth, completeness, and impact  
+Hosted by Google Korea and NIPA, the bootcamp focused on building deployable AI systems for real-world applications.
+
 
 ## 🚨 Motivation
 
