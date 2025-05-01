@@ -3,7 +3,7 @@
 
 <div align="center">
   
-  *An eye-closure monitoring mobile application for preventing drowsy driving accidents, built with **Flutter + Firebase** and powered by a lightweight **YOLOv5n** model.*
+  *An eye-closure monitoring mobile application for preventing drowsy driving accidents, </br>built with **Flutter + Firebase** and powered by a lightweight **YOLOv5n** model.*
 
 </div>
 
@@ -104,6 +104,8 @@ Despite its danger, only **17% of surveyed drivers** recognized it as a top-3 ri
 ---
 
 ## 📈 Model Selection Process
+
+We initially experimented with EfficientDet-lite and OpenCV-based CNN pipelines, but discarded them due to memory overhead and lack of TFLite compatibility on mobile. After several iterations, YOLOv5n proved to be the best balance between speed and accuracy for our real-time use case.
 
 Over 140k eye images were filtered, cleaned, and augmented to curate a **~9,200 image dataset**.  
 > Initially, the model output confidence hovered around 40% due to noise in the eye images.  
@@ -286,26 +288,14 @@ graph TD
 
 ---
 
-## 📁 Dataset & Contributors
+## 👤 Contributors
 
 <table>
   <tr>
-    <th width="50%" align="center">Dataset & Model Access</th>
-    <th width="50%" align="center">Contributors</th>
-  </tr>
-  <tr>
     <td>
-      <ul>
-        <li>Preprocessed Dataset (Roboflow): <a href="https://universe.roboflow.com/label-wddb7/rmbg_all">Link</a></li>
-        <li>Labeled by hand + cleaned + augmented (9.2k images)</li>
-      </ul>
-    </td>
-    <td>
-      <ul>
-        <li><b>Jaeman Lee</b> (Team Lead, ML + System Integration, Frontend, Firebase, GCP, Data Preprocessing, Model Training, Geo features)</li>
-        <li><b>Juho Son</b> (Data Preprocessing, Model Training, Resource Research)</li>
-        <li><b>Bonghyeon Baek</b> (Data Preprocessing, Model evaluation, Resource Research)</li>
-      </ul>
+        <b>Jaeman Lee</b> (Team Lead, ML + System Integration, Fullstack, Data Preprocessing, Model Training)</br>
+        <b>Juho Son</b> (Data Preprocessing, Model Training, Resource Research)</br>
+        <b>Bonghyeon Baek</b> (Data Preprocessing, Model evaluation, Resource Research)
     </td>
   </tr>
 </table>
@@ -316,7 +306,7 @@ graph TD
   
   ## 🔗 Related Resources
   
-  | 📘 [Notion Project Page](https://jaeman-hyu.notion.site/?pvs=73) | 🧾 [Presentation PDF]() | 📂 [GitHub Frontend Repo](https://github.com/Jaemani/wakeup_app/) |
-  |:---:|:---:|:---:|
+  | 📘 [Notion Project Page](https://jaeman-hyu.notion.site/?pvs=73) | 🧾 [Presentation PDF](https://github.com/user-attachments/files/19998170/Wakeup.Presentation.pdf)| 🤗 [Model Download](https://huggingface.co/Jaemani/eye-closure-detector-yolo-tflite/tree/main) | 📁 [Preprocessed Dataset](https://universe.roboflow.com/label-wddb7/rmbg_all) |
+  |:---:|:---:|:---:|:---:|
 
 </div>
