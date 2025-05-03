@@ -368,7 +368,7 @@ graph TD
 <table>
   <tr>
     <td>
-        <b>Jaeman Lee</b> (Team Lead, ML + System Integration, Fullstack, Data Preprocessing, Model Training)</br>
+        <b>Jaeman Lee</b> (Team Lead, ML + System Integration, Fullstack Development, Data Preprocessing, Model Training)</br>
         <b>Juho Son</b> (Data Preprocessing, Model Training, Resource Research)</br>
         <b>Bonghyeon Baek</b> (Data Preprocessing, Model evaluation, Resource Research)
     </td>
