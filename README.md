@@ -105,73 +105,132 @@ Despite its danger, only **17% of surveyed drivers** recognized it as a top-3 ri
 </table>
 
 ---
+## 📈 Model Selection & Evaluation
 
-## 📈 Model Selection Process
-
-We initially experimented with EfficientDet-lite and OpenCV-based CNN pipelines, but discarded them due to memory overhead and lack of TFLite compatibility on mobile. After several iterations, YOLOv5n proved to be the best balance between speed and accuracy for our real-time use case.
+We initially experimented with EfficientDet-lite and OpenCV-based CNN pipelines but discarded them due to memory overhead and lack of TFLite compatibility on mobile. After several iterations, YOLOv5n proved to be the best balance between speed and accuracy for our real-time use case.
 
 Over 140k eye images were filtered, cleaned, and augmented to curate a **~9,200 image dataset**.  
-> Initially, the model output confidence hovered around 40% due to noise in the eye images.  
-> After comprehensive dataset cleaning and augmentation, our best YOLOv5n model achieved **over 99% detection confidence**,  
-> confirming the effectiveness of our pipeline in producing high-quality inference results.
+Initially, the model output confidence hovered around 40% due to noise in the eye images.  
+After comprehensive dataset cleaning and augmentation, all final models achieved **over 96%** precision and recall, with F1 scores **exceeding 0.95**, indicating highly reliable detection performance.
 
-<details>
-  <summary><b>📌 Data Preprocessing Details (Click to expand)</b></summary>
-  <br>
-  <p>Three key preprocessing phases included:</p>
-  <ol>
-    <li>Removing:
-      <ul>
-        <li>ambiguous/half-closed eyes</li>
-        <li>low-resolution or glare-heavy images</li>
-        <li>duplicates and background interference</li>
-      </ul>
-    </li>
-    <li>Background removal & image cleaning</li>
-    <li>Data augmentation: brightness tuning + image flipping</li>
-  </ol>
-  <p><b>Final Dataset Size: 9,200+ images</b></p>
-</details>
+---
 
-### 📊 Model Candidates & Results
+## 🔁 Dataset Preprocessing Impact
 
-<table>
-  <tr>
-    <th align="center">Model</th>
-    <th align="center">Precision</th>
-    <th align="center">Recall</th>
-    <th align="center">mAP@50</th>
-    <th align="center">mAP@50–95</th>
-  </tr>
-  <tr>
-    <td align="center"><b>YOLOv5n</b></td>
-    <td align="center">0.9676</td>
-    <td align="center">0.9619</td>
-    <td align="center">0.9631</td>
-    <td align="center">0.4822</td>
-  </tr>
-  <tr>
-    <td align="center">YOLOv5s</td>
-    <td align="center">0.9710</td>
-    <td align="center">0.9651</td>
-    <td align="center">0.9632</td>
-    <td align="center">0.4978</td>
-  </tr>
-  <tr>
-    <td align="center">YOLOv8n</td>
-    <td align="center">0.9672</td>
-    <td align="center">0.9461</td>
-    <td align="center">0.9629</td>
-    <td align="center">0.5126</td>
-  </tr>
-</table>
+Early training with **raw, unprocessed data** (YOLOv8s v0.1 and v0.2) yielded superficially strong metrics — high confidence scores and clean-looking PR/confusion matrices. However, real-world test accuracy was **unreliable and unstable**, clearly indicating **overfitting** and poor generalization. (All data was found in public and open source)
 
-> 💡 Despite better accuracy from larger models, **YOLOv5n** was chosen due to its significantly better **latency for mobile environments**.
+To address this, we implemented a **three-phase preprocessing pipeline**:
 
-#### 🔗 WANDB Logs:
+1. **Phase 1**: Removed low-quality or misleading samples  
+   - Cropped-eye-only images  
+   - Half-open eyes, blurry or low-resolution images  
+   - Overexposed or light-reflecting cases
+     <details>
+        <summary>example</summary>
+      
+        ![Screenshot 2025-05-03 203303](https://github.com/user-attachments/assets/feac8823-6384-4353-9583-d13926864faa)
+      
+      </details>
+
+2. **Phase 2**: Filtered for label clarity and spatial consistency  
+   - Manually reviewed for background interference, eye occlusion  
+   - Removed photos with multiple faces or corrupted labeling
+     <details>
+        <summary>example</summary>
+       
+        ![Screenshot 2025-05-03 203402](https://github.com/user-attachments/assets/f45cc5f3-ddb9-4b1f-aa52-ff73539f04ec)
+      
+      </details>
+
+3. **Phase 3**: Augmented for diversity and robustness  
+   - Applied brightness adjustment and horizontal flipping  
+   - Final dataset curated to ~9,200 clean and balanced samples
+     <details>
+        <summary>example</summary>
+       
+        ![Screenshot 2025-05-03 203418](https://github.com/user-attachments/assets/3477287d-a5f0-4872-b60e-4a8240a1971a)
+      
+      </details>
+
+| Version      | Precision | Recall | F1 Score | mAP@50 | mAP@50–95 | Notes                          |
+|--------------|-----------|--------|----------|--------|-----------|--------------------------------|
+| YOLOv8s_v0.1 | ~0.87     | ~0.89  | ~0.88    | ~0.91  | ~0.455    | ❌ Duplicates, unfiltered data |
+| YOLOv8s_v0.2 | ~0.90     | ~0.90  | ~0.90    | ~0.80  | ~0.40     | ❌ Poor background filtering   |
+
+After this pipeline was applied, models trained on the new data — **YOLOv8n, YOLOv5s, and YOLOv5n** — showed:
+- Consistently **higher real-world reliability**
+- **Stable learning curves** with minimal overfitting
+- An average **+6.8% mAP@50–95 improvement**
+- Better performance **even with smaller architectures**
+
+> ✳️ Key Insight: Preprocessing quality directly influenced real-world robustness. A smaller model with clean data (e.g., YOLOv5n) outperformed a larger model trained on noisy data (e.g., YOLOv8s).
+
+---
+
+## ✅ Final Model Comparison
+
+| Model     | Precision | Recall | F1 Score | mAP@50 | mAP@50–95 |
+|-----------|-----------|--------|----------|--------|-----------|
+| **YOLOv5n** | 0.9676 | 0.9619 | 0.9647   | 0.9631 | 0.4822    |
+| YOLOv5s   | 0.9710    | 0.9651 | 0.9680   | 0.9632 | 0.4978    |
+| YOLOv8n   | 0.9672    | 0.9461 | 0.9565   | 0.9629 | 0.5126    |
+
+---
+
+## 🔎 Real-World Test Results
+
+Despite YOLOv8n's excellent validation score, its **real-world test accuracy was ~60%**, indicating overfitting or lack of robustness.  
+**YOLOv5n and YOLOv5s consistently delivered >99% accurate predictions** in real-time conditions.
+
+> ✅ **YOLOv5n was selected** due to its compact size, fast inference, and high accuracy — ideal for mobile deployment.
+
+---
+
+## 📊 Metrics Explanation
+
+- **Precision**: Correctness of predicted positive class (eye-closed).
+- **Recall**: Coverage of actual positives identified.
+- **F1 Score**: Harmonic mean of precision and recall.
+- **mAP@50**: Detection accuracy at 0.5 IoU.
+- **mAP@50–95**: Stricter range (0.5–0.95 IoU), indicates generalization.
+
+---
+
+## 🖼 Visual Comparisons
+
+### 🔹 Training Loss Curves
+
+| YOLOv5n | YOLOv5s | YOLOv8n | YOLOv8s_v0.1 | YOLOv8s_v0.2 |
+|--------|--------|--------|--------|--------|
+| <img src="https://github.com/user-attachments/assets/3230b78d-e5c2-4650-aeab-b6c00040d04c" width="240"/> | <img src="https://github.com/user-attachments/assets/f666fa3d-777a-4089-890b-8f9910ff4070" width="240"/> | <img src="https://github.com/user-attachments/assets/ef6f7b29-94b3-40a9-8b79-5a906e9655bf" width="240"/> | <img src="https://github.com/user-attachments/assets/4d671048-c09f-46d1-b39e-29c9e08f3faa" width="240"/> | <img src="https://github.com/user-attachments/assets/9f19c2f5-6f98-4de8-ae7c-0b6a8e00353e" width="240"/> |
+
+### 🔹 Precision-Recall Curves
+
+| YOLOv5n | YOLOv5s | YOLOv8n | YOLOv8s_v0.1 | YOLOv8s_v0.2 |
+|--------|--------|--------|--------|--------|
+| <img src="https://github.com/user-attachments/assets/7b5c6349-d224-4a61-a85f-446bdaa4d23f" width="240"/> | <img src="https://github.com/user-attachments/assets/c66f7b5c-51cd-4b24-a61d-2bfc16328bec" width="240"/> | <img src="https://github.com/user-attachments/assets/fe9051f0-a53c-4493-9c98-da6b6947d49d" width="240"/> | <img src="https://github.com/user-attachments/assets/86adf174-97d8-4f30-b0b1-599908a29c83" width="240"/> | <img src="https://github.com/user-attachments/assets/f87033f5-4f63-4021-aea8-1e195129c2a4" width="240"/> |
+
+### 🔹 Confusion Matrices
+
+| YOLOv5n | YOLOv5s | YOLOv8n | YOLOv8s_v0.1 | YOLOv8s_v0.2 |
+|--------|--------|--------|--------|--------|
+| <img src="https://github.com/user-attachments/assets/52effb02-15ec-4515-bd6e-a8dbcff3af85" width="240"/> | <img src="https://github.com/user-attachments/assets/45e433bd-ea8d-4c74-9abe-fd90f4723eee" width="240"/> | <img src="https://github.com/user-attachments/assets/1bebcde9-7847-4696-9937-f591df22c486" width="240"/> | <img src="https://github.com/user-attachments/assets/46fb2a62-911d-4d50-913e-e411c677f75f" width="240"/> | <img src="https://github.com/user-attachments/assets/e448b9d0-2e24-404c-96d4-b44eb8a17810" width="240"/> |
+
+### 🔹 F1 Score vs Confidence
+
+| YOLOv5n | YOLOv5s | YOLOv8n | YOLOv8s_v0.1 | YOLOv8s_v0.2 |
+|--------|--------|--------|--------|--------|
+| <img src="https://github.com/user-attachments/assets/f5dbe285-75b6-4a5c-a6e8-de8ab8f914b8" width="240"/> | <img src="https://github.com/user-attachments/assets/201a1886-51c3-4245-b89d-9c207bd8bfc0" width="240"/> | <img src="https://github.com/user-attachments/assets/10151dde-eade-4584-befe-2764e73b9091" width="240"/> | <img src="https://github.com/user-attachments/assets/66b2ac9e-69e6-485b-af6b-6a72ddcac0fa" width="240"/> | <img src="https://github.com/user-attachments/assets/3e6ab01c-b485-4495-b053-dd74dd37f681" width="240"/> |
+
+---
+
+## 🔗 WANDB Logs
+
+- [YOLOv8s V0.1 Report](https://api.wandb.ai/links/leejaeman/c2otb110)  
+- [YOLOv8s V0.2 Report](https://api.wandb.ai/links/leejaeman/abgsxvjb)
 - [YOLOv5n Report](https://api.wandb.ai/links/leejaeman/wkmh96a2)  
+- [YOLOv5s Report](https://api.wandb.ai/links/leejaeman/6c5sg1xq)  
 - [YOLOv8n Report](https://api.wandb.ai/links/leejaeman/mbkep4w5)  
-- [YOLOv5s Report](https://api.wandb.ai/links/leejaeman/6c5sg1xq)
 
 ---
 
