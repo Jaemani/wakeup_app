@@ -167,7 +167,7 @@ After this pipeline was applied, models trained on the new data — **YOLOv8n, Y
 
 ---
 
-## ✅ Final Model Comparison
+## ✅ Final Model Comparison (V1)
 
 | Model     | Precision | Recall | F1 Score | mAP@50 | mAP@50–95 |
 |-----------|-----------|--------|----------|--------|-----------|
