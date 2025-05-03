@@ -301,26 +301,39 @@ graph TD
 ## 📲 App Preview
 
 <div align="center">
-  <table>
+  <table style="width: 100%; table-layout: fixed;">
+    <colgroup>
+      <col style="width: 50%;" />
+      <col style="width: 50%;" />
+    </colgroup>
     <tr>
       <td align="center"><b>Home Screen</b></td>
-      <td align="center"><b>Alert Triggered</b></td>
+      <td align="center"><b>Screen Components</b></td>
     </tr>
     <tr>
-      <td align="center">[Home Screen Image]</td>
-      <td align="center">[Alert Screen Image]</td>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/2fe02d88-75d0-4d7e-8cd1-7e36b9eee9c8" style="max-width: 100%; height: auto;" />
+      </td>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/ccdc122e-bfda-421c-bcf4-9c8502cf86e2" style="max-width: 100%; height: auto;" />
+      </td>
     </tr>
     <tr>
       <td align="center"><b>Log Window</b></td>
-      <td align="center"><b>Toggle Buttons</b></td>
+      <td align="center"><b>Alert Triggered (after 1.2s of closing)</b></td>
     </tr>
     <tr>
-      <td align="center">[Log Screen Image]</td>
-      <td align="center">[Button Image]</td>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/d0d3f66a-4343-4896-871d-20399204e90f" style="max-width: 100%; height: auto;" />
+      </td>
+      <td align="center">
+        <video src="https://github.com/user-attachments/assets/9dd2e2a6-f2c5-4d27-a81b-4f06ffd63dbc" type="video/mp4" />
+      </td>
     </tr>
   </table>
 </div>
-
+          
+> little bug: ```s``` should be ```ms``` at the report of 'eye closed time' 
 ---
 
 ## ⚠️ Known Issues & Future Improvements
