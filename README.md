@@ -381,7 +381,8 @@ graph TD
   
   ## 🔗 Related Resources
   
-  | 📘 [Notion Project Page](https://jaeman-hyu.notion.site/?pvs=73) | 🧾 [Presentation PDF](https://github.com/user-attachments/files/19998170/Wakeup.Presentation.pdf)| 🤗 [Model Download](https://huggingface.co/Jaemani/eye-closure-detector-yolo-tflite/tree/main) | 📁 [Preprocessed Dataset](https://universe.roboflow.com/label-wddb7/rmbg_all) |
+  | 📘 [Notion Project Page](https://jaeman-hyu.notion.site/?pvs=73) | 🧾 [Presentation PDF][Uploading Wakeup_Presentation.pdf…]()
+| 🤗 [Model Download](https://huggingface.co/Jaemani/eye-closure-detector-yolo-tflite/tree/main) | 📁 [Preprocessed Dataset](https://universe.roboflow.com/label-wddb7/rmbg_all) |
   |:---:|:---:|:---:|:---:|
 
 </div>
