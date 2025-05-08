@@ -20,7 +20,7 @@ with a death rate **nearly twice as high as drunk driving** (2.9 vs. 1.5 per 100
 
 Despite its danger, only **17% of surveyed drivers** recognized it as a top-3 risk factor.
 
-> 📊 Sources:  
+> Sources:  
 > - Korea Road Traffic Authority Press Release (2016–2020), Road Safety Division  
 > - National Police Agency Traffic Statistics (2019–2023)  
 > - Korea Transportation Safety Authority: 2023 Traffic Safety Perception Survey  
@@ -40,7 +40,7 @@ Despite its danger, only **17% of surveyed drivers** recognized it as a top-3 ri
 
 ---
 
-## 🌟 Features
+## Features
 
 <table>
   <tr>
@@ -63,7 +63,7 @@ Despite its danger, only **17% of surveyed drivers** recognized it as a top-3 ri
 
 ---
 
-## 🔧 Tech Stack
+## Tech Stack
 
 <table>
   <tr>
@@ -115,7 +115,7 @@ After comprehensive dataset cleaning and augmentation, all final models achieved
 
 ---
 
-## 🔁 Dataset Preprocessing Impact
+## Dataset Preprocessing Impact
 
 Early training with **raw, unprocessed data** (YOLOv8s v0.1 and v0.2) yielded superficially strong metrics — high confidence scores and clean-looking PR/confusion matrices. However, real-world test accuracy was **unreliable and unstable**, clearly indicating **overfitting** and poor generalization. (All data was found in public and open source)
 
@@ -177,7 +177,7 @@ After this pipeline was applied, models trained on the new data — **YOLOv8n, Y
 
 ---
 
-## 🔎 Real-World Test Results
+## Real-World Test Results
 
 Despite YOLOv8n's excellent validation score, its **real-world test accuracy was ~60%**, indicating overfitting or lack of robustness.  
 **YOLOv5n and YOLOv5s consistently delivered >99% accurate predictions** in real-time conditions.
@@ -196,7 +196,7 @@ Despite YOLOv8n's excellent validation score, its **real-world test accuracy was
 
 ---
 
-## 🖼 Visual Comparisons
+## Visual Comparisons
 
 ### 🔹 Training Loss Curves
 
@@ -224,7 +224,7 @@ Despite YOLOv8n's excellent validation score, its **real-world test accuracy was
 
 ---
 
-## 🔗 WANDB Logs
+## WANDB Logs
 
 - [YOLOv8s V0.1 Report](https://api.wandb.ai/links/leejaeman/c2otb110)  
 - [YOLOv8s V0.2 Report](https://api.wandb.ai/links/leejaeman/abgsxvjb)
@@ -234,7 +234,7 @@ Despite YOLOv8n's excellent validation score, its **real-world test accuracy was
 
 ---
 
-## 🧠 System Architecture
+## System Architecture
 
 <div align="center">
 
@@ -298,7 +298,7 @@ graph TD
 
 ---
 
-## 📲 App Preview
+## App Preview
 
 <div align="center">
   <table style="width: 100%; table-layout: fixed;">
